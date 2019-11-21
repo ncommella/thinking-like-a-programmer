@@ -1,7 +1,7 @@
-#Thinking Like A Programmer Work Repository
-##Version Control as I work through the book.
+# Thinking Like A Programmer Work Repository
+## Version Control as I work through the book.
 
-###Remember:
+### Remember:
 Thinking Like a Programmer Strategies
 
 1. Always have a plan
