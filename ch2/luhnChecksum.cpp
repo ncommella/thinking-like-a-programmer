@@ -3,10 +3,11 @@ using namespace std;
 
 //prototypes
 int doubleDigitValue(int);
-void numberReading(void);
+void getAndReadNumber(void);
+bool luhnValidation(bool, string);
 
 int main () {
-	numberReading();
+	getAndReadNumber();
 	return 1;
 }
 
@@ -18,23 +19,27 @@ int doubleDigitValue (int digit) {
 	return sum;
 }
 
-void numberReading () {
-	string numString;
-	bool isEvenLength;
-	int luhnSum = 0;
-	cout << "Enter a number of an arbitrary length: " << "\n";
-	cin >> numString;
+void getAndReadNumber () {
+	string userStr;
 
-	//determine if length of the number is even or odd
-	if (numString.length() % 2 == 0)
-		isEvenLength = true;
+	cout << "Enter a number of an arbitrary length: " << "\n";
+	cin >> userStr;
+
+	//determine if length of the number is even or odd & send to luhn function
+	if (userStr.length() % 2 == 0)
+		luhnValidation(true, userStr);
 	else
-		isEvenLength = false;
+		luhnValidation(false, userStr);
+}
+
+bool luhnValidation (bool isEvenLength, string numString) {
+	int luhnSum = 0;
+	bool isValidLuhn;
 
 	//convert number chars to number ints while going from right to left
-	//TODO: separate this into a function
 	for (int i = numString.length() - 1; i >= 0; i--) {
 		int curDigit = int(numString[i]) - 48;
+		//if number is even length, digits in even position will be doubled, and the reverse for odd length numbers
 		if (isEvenLength)
 			if (i % 2 == 0)
 				luhnSum += doubleDigitValue(curDigit);
@@ -44,10 +49,16 @@ void numberReading () {
 			luhnSum += curDigit;
 		else
 			luhnSum += doubleDigitValue(curDigit);
-		//cout << "I: " << i << "\n";
-		//this sends, need to determine which to send to double
-		//cout << curDigit << " - Sum of doubled digits = " << doubleDigitValue(curDigit) << "\n"; // sends each digit to doubleDigitValue() as they are read from right to left
-
 	}
-	cout << "The Luhn Sum of " << numString << " is " << luhnSum << "\n";
+
+	if (luhnSum % 10 == 0) {
+		isValidLuhn = true;
+		cout << "The Luhn Sum of " << numString << " is " << luhnSum << "; therefore, it is a valid Luhn Checksum." << "\n";
+		return isValidLuhn;
+	}
+	else {
+		isValidLuhn = false;
+		cout << "The Luhn Sum of " << numString << " is " << luhnSum << "; therefore, it is NOT a valid Luhn Checksum." << "\n";
+		return isValidLuhn;
+	}
 }
