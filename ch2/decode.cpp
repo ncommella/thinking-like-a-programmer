@@ -3,22 +3,18 @@ using namespace std;
 
 int main () 
 {
-	cout << "Enter a three or four-digit number: ";
+	cout << "Enter a number with as many digits as you like: ";
 	
 	char digitChar = cin.get();
-	int number = (digitChar - '0') * 100;
-	
+	int number = (digitChar - '0');
 	digitChar = cin.get();
-	number += (digitChar - '0') * 10;
 
-	digitChar = cin.get();
-	number += (digitChar - '0');
-
-	digitChar = cin.get();
-	if (digitChar == 10) {
-		cout << "The number is: " << number << "\n";
-	} else {
-		number = (number *10) + (digitChar - '0');
-		cout << "The number is: " << number << "\n";
+	while (digitChar != 10)
+	{
+		number = (number * 10) + (digitChar - '0');
+		digitChar = cin.get();
 	}
+
+	cout << "The number as an int is: " << number << "\n";
+
 }
